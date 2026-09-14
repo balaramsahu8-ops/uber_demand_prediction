@@ -33,3 +33,82 @@ stages:
       hash: md5
       md5: e3e35d233114e9c0a7d2fd3eae09a65f
       size: 919
+  feature_processing:
+    cmd: python ./src/features/feature_processing.py
+    deps:
+    - path: ./data/processed/resampled_data.csv
+      hash: md5
+      md5: 111f3717c482f28697555bd9bee0cf6e
+      size: 8480300
+    - path: ./src/features/feature_processing.py
+      hash: md5
+      md5: d2420514bf90c13c57a2ee5a0a8ba700
+      size: 2539
+    outs:
+    - path: ./data/processed/test.csv
+      hash: md5
+      md5: b68d53e1c78bc05c1661b97e720bd92d
+      size: 4989666
+    - path: ./data/processed/train.csv
+      hash: md5
+      md5: 7f231e8418f73dfd3d94f0232f2c5e2c
+      size: 9609299
+  train:
+    cmd: python ./src/models/train.py
+    deps:
+    - path: ./data/processed/train.csv
+      hash: md5
+      md5: 7f231e8418f73dfd3d94f0232f2c5e2c
+      size: 9609299
+    - path: ./src/models/train.py
+      hash: md5
+      md5: 2b8d933a2c490a40bb62d95cd459bde8
+      size: 2283
+    outs:
+    - path: ./models/encoder.joblib
+      hash: md5
+      md5: 89127b4e92cdb8d56a5056483dead05e
+      size: 3223
+    - path: ./models/model.joblib
+      hash: md5
+      md5: 59055aa79b996b600a24bbaee6432f73
+      size: 2169
+  evaluate:
+    cmd: python ./src/models/evaluate.py
+    deps:
+    - path: ./data/processed/test.csv
+      hash: md5
+      md5: b68d53e1c78bc05c1661b97e720bd92d
+      size: 4989666
+    - path: ./data/processed/train.csv
+      hash: md5
+      md5: 7f231e8418f73dfd3d94f0232f2c5e2c
+      size: 9609299
+    - path: ./models/encoder.joblib
+      hash: md5
+      md5: 89127b4e92cdb8d56a5056483dead05e
+      size: 3223
+    - path: ./models/model.joblib
+      hash: md5
+      md5: 59055aa79b996b600a24bbaee6432f73
+      size: 2169
+    - path: ./src/models/evaluate.py
+      hash: md5
+      md5: a9ac25e8a6fb289db5a2fead42b7726e
+      size: 4382
+    outs:
+    - path: ./run_information.json
+      hash: md5
+      md5: 1fd447b0ef33a802e29c485ed4334c59
+      size: 246
+  register_model:
+    cmd: python ./src/models/register_model.py
+    deps:
+    - path: ./run_information.json
+      hash: md5
+      md5: 1fd447b0ef33a802e29c485ed4334c59
+      size: 246
+    - path: ./src/models/register_model.py
+      hash: md5
+      md5: 1bdc76633ab9e55ed63b7c19bb054713
+      size: 2495
