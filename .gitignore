@@ -5,5 +5,10 @@ venv/
 .env
 .ipynb_checkpoints/
 data/
+!data/
+data/*
+!data/external/
+data/external/*
+!data/external/*.dvc
 /run_information.json
 Notebook/
